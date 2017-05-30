@@ -64,8 +64,49 @@ data _⊢gpd : Cx → Set where
 data _⊢₂_ : ∀ Γ → Fibration₂ ⟦ Γ ⟧C → Set where
   -var- : ∀ {Γ} {T} → Γ ∋₂ T → Γ ⊢₂ T
 
+⟦_⟧₂ : ∀ {Γ} {T} → Γ ⊢₂ T → Section₂ T
+⟦ -var- x ⟧₂ = ⟦ x ⟧V₂
+
 data _⊢₁_ : ∀ Γ → Fibration₁ ⟦ Γ ⟧C → Set where
   -var- : ∀ {Γ} {T} → Γ ∋₁ T → Γ ⊢₁ T
 
+⟦_⟧₁ : ∀ {Γ} {S} → Γ ⊢₁ S → Section₁ S
+⟦ -var- x ⟧₁ = ⟦ x ⟧V₁
+
 data _⊢₀_ : ∀ Γ → Fibration₀ ⟦ Γ ⟧C → Set where
   -var- : ∀ {Γ} {T} → Γ ∋₀ T → Γ ⊢₀ T
+
+⟦_⟧₀ : ∀ {Γ} {S} → Γ ⊢₀ S → Section₀ S
+⟦ -var- x ⟧₀ = ⟦ x ⟧V₀
+
+--Substitution
+
+data Sub Γ : Cx → Set
+⟦_⟧S : ∀ {Γ} {Δ} → Sub Γ Δ → Groupoid-Functor ⟦ Γ ⟧C ⟦ Δ ⟧C
+
+data Sub Γ where
+  • : Sub Γ ε
+  _,₂_ : ∀ {Δ G} (σ : Sub Γ Δ) → Γ ⊢₂ pullback₂ ⟦ σ ⟧S G → Sub Γ (Δ ,₂ G)
+  _,₁_ : ∀ {Δ S} (σ : Sub Γ Δ) → Γ ⊢₁ pullback₁ ⟦ σ ⟧S S → Sub Γ (Δ ,₁ S)
+  _,₀_ : ∀ {Δ P} (σ : Sub Γ Δ) → Γ ⊢₀ pullback₀ ⟦ σ ⟧S P → Sub Γ (Δ ,₀ P)
+
+⟦ • ⟧S = bang
+⟦ σ ,₂ t ⟧S = pair₂ ⟦ σ ⟧S ⟦ t ⟧₂
+⟦ σ ,₁ a ⟧S = pair₁ ⟦ σ ⟧S ⟦ a ⟧₁
+⟦ σ ,₀ p ⟧S = pair₀ ⟦ σ ⟧S ⟦ p ⟧₀
+
+--Path Substitution
+
+data PathSub {Γ} : ∀ {Δ} → Sub Γ Δ → Sub Γ Δ → Set
+⟦_⟧PS : ∀ {Γ Δ} {ρ σ : Sub Γ Δ} → PathSub ρ σ → Groupoid-NatIso ⟦ ρ ⟧S ⟦ σ ⟧S
+
+data PathSub {Γ} where
+  • : PathSub • •
+  _,₂_ : ∀ {Δ G} {ρ σ : Sub Γ Δ} {s : Γ ⊢₂ pullback₂ ⟦ ρ ⟧S G} {t : Γ ⊢₂ pullback₂ ⟦ σ ⟧S G}
+    (τ : PathSub ρ σ) → Γ ⊢₁ EQ₂ ⟦ s ⟧₂ (pullback₂-congl ⟦ τ ⟧PS G) ⟦ t ⟧₂ → PathSub (ρ ,₂ s) (σ ,₂ t)
+  _,₁_ : ∀ {Δ S} {ρ σ : Sub Γ Δ} {s : Γ ⊢₁ pullback₁ ⟦ ρ ⟧S S} {t : Γ ⊢₁ pullback₁ ⟦ σ ⟧S S}
+    (τ : PathSub ρ σ) → Γ ⊢₀ EQ₁ ⟦ s ⟧₁ (pullback₁-congl ⟦ τ ⟧PS S) ⟦ t ⟧₁ → PathSub (ρ ,₁ s) (σ ,₁ t)
+
+⟦ • ⟧PS = bang-ref
+⟦ τ ,₂ e ⟧PS = pair₂-cong ⟦ τ ⟧PS ⟦ e ⟧₁
+⟦ τ ,₁ e ⟧PS = pair₁-cong ⟦ τ ⟧PS ⟦ e ⟧₀
