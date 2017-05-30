@@ -1,16 +1,16 @@
 module Syntax where
-
-postulate Groupoid : Set
-postulate Groupoid-Fibration : Groupoid → Set
-postulate ONE : Groupoid
-postulate Sigma : ∀ G → Groupoid-Fibration G → Groupoid
+open import Semantics
 
 data Cx : Set
 ⟦_⟧C : Cx → Groupoid
 
 data Cx where
   ε : Cx
-  _,₂_ : ∀ Γ → Groupoid-Fibration ⟦ Γ ⟧C → Cx
-
+  _,₂_ : ∀ Γ → Fibration₂ ⟦ Γ ⟧C → Cx
+  _,₁_ : ∀ Γ → Fibration₁ ⟦ Γ ⟧C → Cx
+  _,₀_ : ∀ Γ → Fibration₀ ⟦ Γ ⟧C → Cx
+  
 ⟦ ε ⟧C = ONE
-⟦ Γ ,₂ G ⟧C = Sigma ⟦ Γ ⟧C G
+⟦ Γ ,₂ G ⟧C = Sigma₂ ⟦ Γ ⟧C G
+⟦ Γ ,₁ S ⟧C = Sigma₁ ⟦ Γ ⟧C S
+⟦ Γ ,₀ P ⟧C = Sigma₀ ⟦ Γ ⟧C P
