@@ -51,15 +51,21 @@ data _∋₀_ : ∀ Γ → Fibration₀ ⟦ Γ ⟧C → Set where
   pop₁ : ∀ {Γ} {S} {T} → Γ ∋₀ T → Γ ,₁ S ∋₀ pullback₀ p₁ T
   pop₀ : ∀ {Γ} {P} {T} → Γ ∋₀ T → Γ ,₀ P ∋₀ pullback₀ p₀ T
 
+⟦_⟧V₀ : ∀ {Γ} {H} → Γ ∋₀ H → Section₀ H
+⟦ top ⟧V₀ = q₀
+⟦ pop₂ x ⟧V₀ = section-pullback₀ p₂ ⟦ x ⟧V₀
+⟦ pop₁ x ⟧V₀ = section-pullback₀ p₁ ⟦ x ⟧V₀
+⟦ pop₀ x ⟧V₀ = section-pullback₀ p₀ ⟦ x ⟧V₀
+
 --The typing judgements
 
 data _⊢gpd : Cx → Set where
 
 data _⊢₂_ : ∀ Γ → Fibration₂ ⟦ Γ ⟧C → Set where
-  var : ∀ {Γ} {T} → Γ ∋₂ T → Γ ⊢₂ T
+  -var- : ∀ {Γ} {T} → Γ ∋₂ T → Γ ⊢₂ T
 
 data _⊢₁_ : ∀ Γ → Fibration₁ ⟦ Γ ⟧C → Set where
-  var : ∀ {Γ} {T} → Γ ∋₁ T → Γ ⊢₁ T
+  -var- : ∀ {Γ} {T} → Γ ∋₁ T → Γ ⊢₁ T
 
 data _⊢₀_ : ∀ Γ → Fibration₀ ⟦ Γ ⟧C → Set where
-  var : ∀ {Γ} {T} → Γ ∋₀ T → Γ ⊢₀ T
+  -var- : ∀ {Γ} {T} → Γ ∋₀ T → Γ ⊢₀ T
