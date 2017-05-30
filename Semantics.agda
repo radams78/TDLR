@@ -16,9 +16,12 @@ postulate q₂ : ∀ {G} {H} → Section₂ {Sigma₂ G H} (pullback₂ p₂ H)
 
 postulate Fibration₁ : Groupoid → Set
 postulate pullback₁ : ∀ {G} {H} → Groupoid-Functor G H → Fibration₁ H → Fibration₁ G
+postulate Section₁ : ∀ {G} → Fibration₁ G → Set
+postulate section-pullback₁ : ∀ {G H S} (F : Groupoid-Functor G H) → Section₁ S → Section₁ (pullback₁ F S)
 
 postulate Sigma₁ : ∀ G → Fibration₁ G → Groupoid
 postulate p₁ : ∀ {G} {S} → Groupoid-Functor (Sigma₁ G S) G
+postulate q₁ : ∀ {G} {S} → Section₁ {Sigma₁ G S} (pullback₁ p₁ S)
 
 postulate Fibration₀ : Groupoid → Set
 postulate pullback₀ : ∀ {G} {H} → Groupoid-Functor G H → Fibration₀ H → Fibration₀ G

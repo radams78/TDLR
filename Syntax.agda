@@ -38,6 +38,12 @@ data _∋₁_ : ∀ Γ → Fibration₁ ⟦ Γ ⟧C → Set where
   pop₁ : ∀ {Γ} {S} {T} → Γ ∋₁ T → Γ ,₁ S ∋₁ pullback₁ p₁ T
   pop₀ : ∀ {Γ} {P} {T} → Γ ∋₁ T → Γ ,₀ P ∋₁ pullback₁ p₀ T
 
+⟦_⟧V₁ : ∀ {Γ} {H} → Γ ∋₁ H → Section₁ H
+⟦ top ⟧V₁ = q₁
+⟦ pop₂ x ⟧V₁ = section-pullback₁ p₂ ⟦ x ⟧V₁
+⟦ pop₁ x ⟧V₁ = section-pullback₁ p₁ ⟦ x ⟧V₁
+⟦ pop₀ x ⟧V₁ = section-pullback₁ p₀ ⟦ x ⟧V₁
+
 infix 10 _∋₀_
 data _∋₀_ : ∀ Γ → Fibration₀ ⟦ Γ ⟧C → Set where
   top : ∀ {Γ} {T} → Γ ,₀ T ∋₀ pullback₀ p₀ T
