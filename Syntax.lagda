@@ -1,9 +1,16 @@
+\begin{code}
 module Syntax where
 open import Semantics
+\end{code}
 
+%<*Contexts>
+\begin{code}
 data Cx : Set
 ⟦_⟧C : Cx → Groupoid
+\end{code}
+%</Contexts>
 
+\begin{code}
 infix 25 _,₂_
 data Cx where
   ε : Cx
@@ -59,12 +66,27 @@ data _∋₀_ : ∀ Γ → Fibration₀ ⟦ Γ ⟧C → Set where
 
 --The typing judgements
 
+\end{code}
+
+%<*Typing>
+\begin{code}
 data _⊢gpd : Cx → Set where
 
 data _⊢₂_ : ∀ Γ → Fibration₂ ⟦ Γ ⟧C → Set where
-  -var- : ∀ {Γ} {T} → Γ ∋₂ T → Γ ⊢₂ T
+\end{code}
+%</Typing>
 
+\begin{code}
+  -var- : ∀ {Γ} {T} → Γ ∋₂ T → Γ ⊢₂ T
+\end{code}
+
+%<*Typing2>
+\begin{code}
 ⟦_⟧₂ : ∀ {Γ} {T} → Γ ⊢₂ T → Section₂ T
+\end{code}
+%</Typing2>
+
+\begin{code}
 ⟦ -var- x ⟧₂ = ⟦ x ⟧V₂
 
 data _⊢₁_ : ∀ Γ → Fibration₁ ⟦ Γ ⟧C → Set where
@@ -81,9 +103,16 @@ data _⊢₀_ : ∀ Γ → Fibration₀ ⟦ Γ ⟧C → Set where
 
 --Substitution
 
+\end{code}
+
+%<*Sub>
+\begin{code}
 data Sub Γ : Cx → Set
 ⟦_⟧S : ∀ {Γ} {Δ} → Sub Γ Δ → Groupoid-Functor ⟦ Γ ⟧C ⟦ Δ ⟧C
+\end{code}
+%</Sub>
 
+\begin{code}
 data Sub Γ where
   • : Sub Γ ε
   _,₂_ : ∀ {Δ G} (σ : Sub Γ Δ) → Γ ⊢₂ pullback₂ ⟦ σ ⟧S G → Sub Γ (Δ ,₂ G)
@@ -102,10 +131,16 @@ apV₂ (σ ,₁ t) (pop₁ x) = {!apV₂ σ x!}
 apV₂ σ (pop₀ x) = {!!}
 
 --Path Substitution
+\end{code}
 
+%<*PathSub>
+\begin{code}
 data PathSub {Γ} : ∀ {Δ} → Sub Γ Δ → Sub Γ Δ → Set
 ⟦_⟧PS : ∀ {Γ Δ} {ρ σ : Sub Γ Δ} → PathSub ρ σ → Groupoid-NatIso ⟦ ρ ⟧S ⟦ σ ⟧S
+\end{code}
+%</PathSub>
 
+\begin{code}
 data PathSub {Γ} where
   • : PathSub • •
   _,₂_ : ∀ {Δ G} {ρ σ : Sub Γ Δ} {s : Γ ⊢₂ pullback₂ ⟦ ρ ⟧S G} {t : Γ ⊢₂ pullback₂ ⟦ σ ⟧S G}
@@ -119,3 +154,4 @@ data PathSub {Γ} where
 ⟦ τ ,₂ e ⟧PS = pair₂-cong ⟦ τ ⟧PS ⟦ e ⟧₁
 ⟦ τ ,₁ e ⟧PS = pair₁-cong ⟦ τ ⟧PS ⟦ e ⟧₀
 ⟦ τ ,₀* ⟧PS = pair₀-cong ⟦ τ ⟧PS
+\end{code}
