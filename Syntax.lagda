@@ -30,39 +30,39 @@ data _∋₂_ : ∀ Γ → Fibration₂ ⟦ Γ ⟧C → Set where
   top : ∀ {Γ} {H} → Γ ,₂ H ∋₂ pullback₂ p₂ H
   pop₂ : ∀ {Γ} {G} {H} → Γ ∋₂ H → Γ ,₂ G ∋₂ pullback₂ p₂ H
   pop₁ : ∀ {Γ} {S} {H} → Γ ∋₂ H → Γ ,₁ S ∋₂ pullback₂ p₁ H
-  pop₀ : ∀ {Γ} {P} {H} → Γ ∋₂ H → Γ ,₀ P ∋₂ pullback₂ p₀ H
+  pop₀ : ∀ {Γ} {P} {H} → Γ ∋₂ H → Γ ,₀ P ∋₂ pullback₂ (p₀ P) H
 
 ⟦_⟧V₂ : ∀ {Γ} {H} → Γ ∋₂ H → Section₂ H
 ⟦ top ⟧V₂ = q₂
 ⟦ pop₂ x ⟧V₂ = section-pullback₂ p₂ ⟦ x ⟧V₂
 ⟦ pop₁ x ⟧V₂ = section-pullback₂ p₁ ⟦ x ⟧V₂
-⟦ pop₀ x ⟧V₂ = section-pullback₂ p₀ ⟦ x ⟧V₂
+⟦ pop₀ {P = P} x ⟧V₂ = section-pullback₂ (p₀ P) ⟦ x ⟧V₂
 
 infix 10 _∋₁_
 data _∋₁_ : ∀ Γ → Fibration₁ ⟦ Γ ⟧C → Set where
   top : ∀ {Γ} {T} → Γ ,₁ T ∋₁ pullback₁ p₁ T
   pop₂ : ∀ {Γ} {G} {T} → Γ ∋₁ T → Γ ,₂ G ∋₁ pullback₁ p₂ T
   pop₁ : ∀ {Γ} {S} {T} → Γ ∋₁ T → Γ ,₁ S ∋₁ pullback₁ p₁ T
-  pop₀ : ∀ {Γ} {P} {T} → Γ ∋₁ T → Γ ,₀ P ∋₁ pullback₁ p₀ T
+  pop₀ : ∀ {Γ} {P} {T} → Γ ∋₁ T → Γ ,₀ P ∋₁ pullback₁ (p₀ P) T
 
 ⟦_⟧V₁ : ∀ {Γ} {H} → Γ ∋₁ H → Section₁ H
 ⟦ top ⟧V₁ = q₁
 ⟦ pop₂ x ⟧V₁ = section-pullback₁ p₂ ⟦ x ⟧V₁
 ⟦ pop₁ x ⟧V₁ = section-pullback₁ p₁ ⟦ x ⟧V₁
-⟦ pop₀ x ⟧V₁ = section-pullback₁ p₀ ⟦ x ⟧V₁
+⟦ pop₀ {P = P} x ⟧V₁ = section-pullback₁ (p₀ P) ⟦ x ⟧V₁
 
 infix 10 _∋₀_
 data _∋₀_ : ∀ Γ → Fibration₀ ⟦ Γ ⟧C → Set where
-  top : ∀ {Γ} {T} → Γ ,₀ T ∋₀ pullback₀ p₀ T
+  top : ∀ {Γ} {P} → Γ ,₀ P ∋₀ pullback₀ (p₀ P) P
   pop₂ : ∀ {Γ} {G} {T} → Γ ∋₀ T → Γ ,₂ G ∋₀ pullback₀ p₂ T
   pop₁ : ∀ {Γ} {S} {T} → Γ ∋₀ T → Γ ,₁ S ∋₀ pullback₀ p₁ T
-  pop₀ : ∀ {Γ} {P} {T} → Γ ∋₀ T → Γ ,₀ P ∋₀ pullback₀ p₀ T
+  pop₀ : ∀ {Γ} {P} {T} → Γ ∋₀ T → Γ ,₀ P ∋₀ pullback₀ (p₀ P) T
 
 ⟦_⟧V₀ : ∀ {Γ} {H} → Γ ∋₀ H → Section₀ H
 ⟦ top ⟧V₀ = q₀
 ⟦ pop₂ x ⟧V₀ = section-pullback₀ p₂ ⟦ x ⟧V₀
 ⟦ pop₁ x ⟧V₀ = section-pullback₀ p₁ ⟦ x ⟧V₀
-⟦ pop₀ x ⟧V₀ = section-pullback₀ p₀ ⟦ x ⟧V₀
+⟦ pop₀ {P = P} x ⟧V₀ = section-pullback₀ (p₀ P) ⟦ x ⟧V₀
 
 --The typing judgements
 
@@ -122,13 +122,13 @@ data Sub Γ where
 ⟦ • ⟧S = bang
 ⟦ σ ,₂ t ⟧S = pair₂ _ ⟦ σ ⟧S ⟦ t ⟧₂
 ⟦ σ ,₁ a ⟧S = pair₁ ⟦ σ ⟧S ⟦ a ⟧₁
-⟦ σ ,₀ p ⟧S = pair₀ ⟦ σ ⟧S ⟦ p ⟧₀
+⟦ _,₀_ {P = P} σ p ⟧S = pair₀ P ⟦ σ ⟧S ⟦ p ⟧₀
 
 apV₂ : ∀ {Γ Δ T} (σ : Sub Γ Δ) → Δ ∋₂ T → Γ ⊢₂ pullback₂ ⟦ σ ⟧S T
 apV₂ (σ ,₂ t) top = t
 apV₂ (σ ,₂ t) (pop₂ x) = apV₂ σ x
-apV₂ (σ ,₁ t) (pop₁ x) = {!apV₂ σ x!}
-apV₂ σ (pop₀ x) = {!!}
+apV₂ (σ ,₁ t) (pop₁ x) = apV₂ σ x
+apV₂ (σ ,₀ t) (pop₀ x) = apV₂ σ x
 
 --Path Substitution
 \end{code}
@@ -148,10 +148,10 @@ data PathSub {Γ} where
   _,₁_ : ∀ {Δ S} {ρ σ : Sub Γ Δ} {s : Γ ⊢₁ pullback₁ ⟦ ρ ⟧S S} {t : Γ ⊢₁ pullback₁ ⟦ σ ⟧S S}
     (τ : PathSub ρ σ) → Γ ⊢₀ EQ₁ ⟦ s ⟧₁ (pullback₁-congl ⟦ τ ⟧PS S) ⟦ t ⟧₁ → PathSub (ρ ,₁ s) (σ ,₁ t)
   _,₀* : ∀ {Δ P} {ρ σ : Sub Γ Δ} {s : Γ ⊢₀ pullback₀ ⟦ ρ ⟧S P} {t : Γ ⊢₀ pullback₀ ⟦ σ ⟧S P}
-    (τ : PathSub ρ σ) → PathSub (ρ ,₀ s) (σ ,₀ t)
+    (τ : PathSub ρ σ) → PathSub (_,₀_ {P = P} ρ s) (σ ,₀ t)
 
 ⟦ • ⟧PS = bang-ref
 ⟦ τ ,₂ e ⟧PS = pair₂-cong ⟦ τ ⟧PS ⟦ e ⟧₁
 ⟦ τ ,₁ e ⟧PS = pair₁-cong ⟦ τ ⟧PS ⟦ e ⟧₀
-⟦ τ ,₀* ⟧PS = pair₀-cong ⟦ τ ⟧PS
+⟦ _,₀* {P = P} τ ⟧PS = pair₀-cong {P = P} ⟦ τ ⟧PS
 \end{code}
