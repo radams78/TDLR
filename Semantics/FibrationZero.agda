@@ -16,5 +16,6 @@ record Section₀ {G} (P : Fibration₀ G) : Set where
   field
     vertex : ∀ x → T₀ (Fibration₀.Fibre P x)
     
-postulate section-pullback₀ : ∀ {G H S} (F : Groupoid-Functor G H) → Section₀ S → Section₀ (pullback₀ F S)
+section-pullback₀ : ∀ {G H S} (F : Groupoid-Functor G H) → Section₀ S → Section₀ (pullback₀ F S)
+section-pullback₀ F s = record { vertex = λ x → Section₀.vertex s (ap-vertex F x) }
 

@@ -3,23 +3,15 @@ open import Semantics
 open import Syntax.Context
 open import Syntax.Variable
 
-data _⊢gpd : Cx → Set where
+data _⊢_gpd : ∀ Γ → Fibration₂ ⟦ Γ ⟧C → Set where
 
-data _⊢₂_ : ∀ Γ → Fibration₂ ⟦ Γ ⟧C → Set where
-  -var- : ∀ {Γ} {T} → Γ ∋₂ T → Γ ⊢₂ T
+data _⊢₂_∋_ : ∀ Γ (G : Fibration₂ ⟦ Γ ⟧C) → Section₂ G → Set where
+  -var- : ∀ {Γ T ⟦x⟧} → Γ ∋₂ T ≡ ⟦x⟧ → Γ ⊢₂ T ∋ ⟦x⟧
+--TODO Make notation consistent
 
-⟦_⟧₂ : ∀ {Γ} {T} → Γ ⊢₂ T → Section₂ T
-⟦ -var- x ⟧₂ = ⟦ x ⟧V₂
+data _⊢₁_∋_ : ∀ Γ (S : Fibration₁ ⟦ Γ ⟧C) → Section₁ S → Set where
+  -var- : ∀ {Γ T ⟦x⟧} → Γ ∋₁ T ≡ ⟦x⟧ → Γ ⊢₁ T ∋ ⟦x⟧
 
-data _⊢₁_ : ∀ Γ → Fibration₁ ⟦ Γ ⟧C → Set where
-  -var- : ∀ {Γ} {T} → Γ ∋₁ T → Γ ⊢₁ T
-
-⟦_⟧₁ : ∀ {Γ} {S} → Γ ⊢₁ S → Section₁ S
-⟦ -var- x ⟧₁ = ⟦ x ⟧V₁
-
-data _⊢₀_ : ∀ Γ → Fibration₀ ⟦ Γ ⟧C → Set where
-  -var- : ∀ {Γ} {T} → Γ ∋₀ T → Γ ⊢₀ T
-
-⟦_⟧₀ : ∀ {Γ} {S} → Γ ⊢₀ S → Section₀ S
-⟦ -var- x ⟧₀ = ⟦ x ⟧V₀
+data _⊢₀_∋_ : ∀ Γ (P : Fibration₀ ⟦ Γ ⟧C) → Section₀ P → Set where
+  -var- : ∀ {Γ P ⟦x⟧} → Γ ∋₀ P ≡ ⟦x⟧ → Γ ⊢₀ P ∋ ⟦x⟧
 
