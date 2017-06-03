@@ -35,7 +35,13 @@ postulate eq₁-cong : ∀ {S S' T T'}
 postulate eq₂-cong₂ : ∀ {A A' B B' C C' D D'}
                       {a : T₂ A} {a' : T₂ A'} {b : T₂ B} {b' : T₂ B'} {c : T₂ C} {c' : T₂ C'} {d : T₂ D} {d' : T₂ D'}
                       {A* : T₂ (Eq₂ A A')} {B* : T₂ (Eq₂ B B')} {C* : T₂ (Eq₂ C C')} {D* : T₂ (Eq₂ D D')}
+                      {e : T₂ (Eq₂ A B)} {e' : T₂ (Eq₂ A' B')} {f : T₂ (Eq₂ C D)} {f' : T₂ (Eq₂ C' D')}
+                      {AC : T₂ (Eq₂ A C)} {A'C' : T₂ (Eq₂ A' C')} {BD : T₂ (Eq₂ B D)} {B'D' : T₂ (Eq₂ B' D')}
                       {a* : T₁ (eq₂ a A* a')} {b* : T₁ (eq₂ b B* b')} {c* : T₁ (eq₂ c C* c')} {d* : T₁ (eq₂ d D* d')}
-                      {e* : T₁ (eq₂ e ? e')} {f* : T₁ (eq₂ f ? f')} →
-                      T₉ (eq₁ a* ? c*) → T₀ (eq₁ e* ? f*) → T₀ (eq₁ b* ? d*) →
-                      T₀ (eq₁ (eq₂-cong a* e* b*) (eq₂-cong c* f* d*))
+                      {ac : T₁ (eq₂ a AC c)} {a'c' : T₁ (eq₂ a' A'C' c')} {bd : T₁ (eq₂ b BD d)} {b'd' : T₁ (eq₂ b' B'D' d')}
+                      {A*C* : T₁ (eq₂ A* (Eq₂-cong AC A'C') C*)} {B*D* : T₁ (eq₂ B* (Eq₂-cong BD B'D') D*)}
+                      {e* : T₁ (eq₂ e (Eq₂-cong A* B*) e')} {f* : T₁ (eq₂ f (Eq₂-cong C* D*) f')}
+                      {ef : T₁ (eq₂ e (Eq₂-cong AC BD) f)} {e'f' : T₁ (eq₂ e' (Eq₂-cong A'C' B'D') f')} →
+                      T₀ (eq₁ a* (eq₂-cong ac A*C* a'c') c*) → T₀ (eq₁ e* (eq₂-cong ef (Eq₂-cong₂ A*C* B*D*) e'f') f*) →
+                      T₀ (eq₁ b* (eq₂-cong bd B*D* b'd') d*) →
+                      T₀ (eq₁ (eq₂-cong a* e* b*) (Eq₁-cong (eq₂-cong ac ef bd) (eq₂-cong a'c' e'f' b'd')) (eq₂-cong c* f* d*))

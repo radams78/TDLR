@@ -73,7 +73,7 @@ EQ₂ : ∀ {G H K} → Section₂ {G} H → Fibration-Eq₂ H K → Section₂ 
 EQ₂ s e t = record {
   Fibre = λ x → eq₂ (Section₂.vertex s x) (Fibration-Eq₂.Fibre e x) (Section₂.vertex t x) ;
   Fibre-cong = λ p → eq₂-cong (Section₂.path s p) (Fibration-Eq₂.Fibre-cong e p) (Section₂.path t p);
-  Fibre-cong₂ = λ fill → {!eq₂-cong₂!} }
+  Fibre-cong₂ = λ fill → eq₂-cong₂ (Section₂.face s fill) (Fibration-Eq₂.Fibre-cong₂ e fill) (Section₂.face t fill) }
 
 section-pullback₂-congl : ∀ {G H K} {F F' : Groupoid-Functor G H} →
   (α : Groupoid-NatIso F F') (s : Section₂ K) →

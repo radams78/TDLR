@@ -19,8 +19,12 @@ pair₀ P F s = record {
   ap-fill = ap-fill F ;
   ap-fill₂ = Groupoid-Functor.ap-fill₂ F}
 
-postulate pair₀-cong : ∀ {G H P} {F F' : Groupoid-Functor G H} {s : Section₀ (pullback₀ F P)} {t : Section₀ (pullback₀ F' P)} →
-                     (α : Groupoid-NatIso F F') → Groupoid-NatIso (pair₀ P F s) (pair₀ P F' t)
+pair₀-cong : ∀ {G H P} {F F' : Groupoid-Functor G H} {s : Section₀ (pullback₀ F P)} {t : Section₀ (pullback₀ F' P)} →
+  (α : Groupoid-NatIso F F') → Groupoid-NatIso (pair₀ P F s) (pair₀ P F' t)
+pair₀-cong α = record {
+  comp = Groupoid-NatIso.comp α ;
+  natural = Groupoid-NatIso.natural α ;
+  natural₂ = Groupoid-NatIso.natural₂ α }
 
 p₀ : ∀ {G} P → Groupoid-Functor (Sigma₀ G P) G
 p₀ P = record { ap-vertex = proj₁ ; ap-path = λ p → p ; ap-fill = λ fill → fill ; ap-fill₂ = λ fill₂ → fill₂ }
