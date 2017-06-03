@@ -43,3 +43,10 @@ EQ₁ : ∀ {G S T} → Section₁ {G} S → Fibration-Eq₁ S T → Section₁ 
 EQ₁ s e t = record {
   Fibre = λ x → eq₁ (Section₁.vertex s x) (Fibration-Eq₁.Fibre e x) (Section₁.vertex t x) ;
   Fibre-cong = λ p → eq₁-cong (Section₁.edge s p) (Fibration-Eq₁.Fibre-cong e p) (Section₁.edge t p) }
+
+section-pullback₁-congl : ∀ {G H S} {F F' : Groupoid-Functor G H}
+  (α : Groupoid-NatIso F F') (s : Section₁ S) →
+  Section₀ (EQ₁ (section-pullback₁ F s) (pullback₁-congl α S) (section-pullback₁ F' s))
+section-pullback₁-congl α s = record {
+  vertex = λ x → Section₁.edge s (Groupoid-NatIso.comp α x)
+  }

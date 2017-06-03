@@ -30,3 +30,21 @@ appsV₂ (τ ,₂ G ∋ ⟦e⟧ ≡ e) top = e
 appsV₂ (τ ,₂ S ∋ ⟦e⟧ ≡ e) (pop₂ x) = appsV₂ τ x
 appsV₂ (τ ,₁ P ∋ ⟦e⟧ ≡ e) (pop₁ x) = appsV₂ τ x
 appsV₂ (τ ,₀*) (pop₀ x) = appsV₂ τ x
+
+appsV₁ : ∀ {Γ Δ S ⟦x⟧} {ρ σ : Sub Γ Δ} (τ : PathSub ρ σ) (x : Δ var₁ S ∋ ⟦x⟧) →
+  Γ ⊢₀ EQ₁ (section-pullback₁ ⟦ ρ ⟧S ⟦x⟧) (pullback₁-congl ⟦ τ ⟧PS S) (section-pullback₁ ⟦ σ ⟧S ⟦x⟧) ∋
+  section-pullback₁-congl ⟦ τ ⟧PS ⟦x⟧
+appsV₁ (τ ,₁ G ∋ ⟦e⟧ ≡ e) top = e
+appsV₁ (τ ,₂ S ∋ ⟦e⟧ ≡ e) (pop₂ x) = appsV₁ τ x
+appsV₁ (τ ,₁ P ∋ ⟦e⟧ ≡ e) (pop₁ x) = appsV₁ τ x
+appsV₁ (τ ,₀*) (pop₀ x) = appsV₁ τ x
+
+apps₂ : ∀  {Γ Δ G ⟦t⟧} {ρ σ : Sub Γ Δ} (τ : PathSub ρ σ) (t : Δ ⊢₂ G ∋ ⟦t⟧) →
+  Γ ⊢₁ EQ₂ (section-pullback₂ ⟦ ρ ⟧S ⟦t⟧) (pullback₂-congl ⟦ τ ⟧PS G) (section-pullback₂ ⟦ σ ⟧S ⟦t⟧) ∋
+  section-pullback₂-congl ⟦ τ ⟧PS ⟦t⟧
+apps₂ τ (-var- x) = appsV₂ τ x
+
+apps₁ : ∀  {Γ Δ G ⟦t⟧} {ρ σ : Sub Γ Δ} (τ : PathSub ρ σ) (t : Δ ⊢₁ G ∋ ⟦t⟧) →
+  Γ ⊢₀ EQ₁ (section-pullback₁ ⟦ ρ ⟧S ⟦t⟧) (pullback₁-congl ⟦ τ ⟧PS G) (section-pullback₁ ⟦ σ ⟧S ⟦t⟧) ∋
+  section-pullback₁-congl ⟦ τ ⟧PS ⟦t⟧
+apps₁ τ (-var- x) = appsV₁ τ x
