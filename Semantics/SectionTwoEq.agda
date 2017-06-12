@@ -30,3 +30,18 @@ section-pullback₂-congl : ∀ {G H K} {F F' : Groupoid-Functor G H} →
 section-pullback₂-congl α s = record {
   vertex = λ x → Section₂.path s (Groupoid-NatIso.comp α x) ;
   edge = λ p → Section₂.face s (Groupoid-NatIso.natural α p) }
+
+Fibration-Eq₂-cong₂ : ∀ {G} {A A' B B' C C' D D' : Fibration₂ G}
+    (A* : Section₂ (Fibration-Eq₂ A A')) (B* : Section₂ (Fibration-Eq₂ B B'))
+    (C* : Section₂ (Fibration-Eq₂ C C')) (D* : Section₂ (Fibration-Eq₂ D D'))
+    {AB : Section₂ (Fibration-Eq₂ A B)} {A'B' : Section₂ (Fibration-Eq₂ A' B')}
+    {CD : Section₂ (Fibration-Eq₂ C D)} {C'D' : Section₂ (Fibration-Eq₂ C' D')} →
+    Section₁ (EQ₂ A* (Fibration-Eq₂-cong AB A'B') B*) →
+    Section₁ (EQ₂ C* (Fibration-Eq₂-cong CD C'D') D*) →
+    Section₁ (EQ₂ (Fibration-Eq₂-cong A* C*)
+      (Fibration-Eq₂-cong (Fibration-Eq₂-cong AB CD) (Fibration-Eq₂-cong A'B' C'D'))
+      (Fibration-Eq₂-cong B* D*))
+Fibration-Eq₂-cong₂ _ _ _ _ A*B* C*D* = record {
+  vertex = λ x → Eq₂-cong₂ (Section₁.vertex A*B* x) (Section₁.vertex C*D* x) ;
+  edge = λ p → Eq₂-cong₃ (Section₁.edge A*B* p) (Section₁.edge C*D* p) }
+

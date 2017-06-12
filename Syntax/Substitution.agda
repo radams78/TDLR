@@ -45,7 +45,4 @@ ap₂ σ (-eq*- G* H*) = -eq*- (ap₂ σ G*) (ap₂ σ H*)
 
 ap₁ : ∀ {Γ Δ G} (σ : Sub Γ Δ) {⟦t⟧} → Δ ⊢₁ G ∋ ⟦t⟧ → Γ ⊢₁ pullback₁ ⟦ σ ⟧S G ∋ section-pullback₁ ⟦ σ ⟧S ⟦t⟧
 ap₁ σ (-var- x) = apV₁ σ x
-ap₁ σ (-eq**- {⟦GK⟧ = ⟦GK⟧} {⟦G'K'⟧} {⟦HL⟧} {⟦H'L'⟧} S* T*) =
-  -eq**- {⟦GK⟧ = section-pullback₂ ⟦ σ ⟧S ⟦GK⟧} {section-pullback₂ ⟦ σ ⟧S ⟦G'K'⟧} {section-pullback₂ ⟦ σ ⟧S ⟦HL⟧} {section-pullback₂ ⟦ σ ⟧S ⟦H'L'⟧}
-  (ap₁ σ S*) (ap₁ σ T*)
 

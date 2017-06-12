@@ -47,10 +47,9 @@ apps₂ : ∀  {Γ Δ G ⟦t⟧} {ρ σ : Sub Γ Δ} (τ : PathSub ρ σ) (t : �
   Γ ⊢₁ EQ₂ (section-pullback₂ ⟦ ρ ⟧S ⟦t⟧) (pullback₂-congl ⟦ τ ⟧PS G) (section-pullback₂ ⟦ σ ⟧S ⟦t⟧) ∋
   section-pullback₂-congl ⟦ τ ⟧PS ⟦t⟧
 apps₂ τ (-var- x) = appsV₂ τ x
-apps₂ τ (-eq*- G* H*) = -eq**- (apps₂ τ G*) (apps₂ τ H*)
+apps₂ τ (-eq*- G* H*) = {!!}
 
 apps₁ : ∀  {Γ Δ G ⟦t⟧} {ρ σ : Sub Γ Δ} (τ : PathSub ρ σ) (t : Δ ⊢₁ G ∋ ⟦t⟧) →
   Γ ⊢₀ EQ₁ (section-pullback₁ ⟦ ρ ⟧S ⟦t⟧) (pullback₁-congl ⟦ τ ⟧PS G) (section-pullback₁ ⟦ σ ⟧S ⟦t⟧) ∋
   section-pullback₁-congl ⟦ τ ⟧PS ⟦t⟧
 apps₁ τ (-var- x) = appsV₁ τ x
-apps₁ τ (-eq**- e f) = {!!}

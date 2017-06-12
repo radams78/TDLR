@@ -7,7 +7,6 @@ open import Semantics.FibrationOne
 open import Semantics.FibrationTwo
 open import Semantics.SectionTwo
 open import Semantics.SectionTwoEq
-open import Semantics.FibrationEqTwoCongThree
 
 Sigma₂ : ∀ G → Fibration₂ G → Groupoid
 Sigma₂ G H = record {
