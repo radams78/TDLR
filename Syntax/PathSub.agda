@@ -39,12 +39,18 @@ appsV₁ (τ ,₂ S ∋ ⟦e⟧ ≡ e) (pop₂ x) = appsV₁ τ x
 appsV₁ (τ ,₁ P ∋ ⟦e⟧ ≡ e) (pop₁ x) = appsV₁ τ x
 appsV₁ (τ ,₀*) (pop₀ x) = appsV₁ τ x
 
+apps₃ : ∀  {Γ Δ ⟦G⟧} {ρ σ : Sub Γ Δ} (τ : PathSub ρ σ) (t : Δ ⊢ ⟦G⟧ gpd) →
+  Γ ⊢₂ Fibration-Eq₂ (pullback₂ ⟦ ρ ⟧S ⟦G⟧) (pullback₂ ⟦ σ ⟧S ⟦G⟧) ∋ pullback₂-congl ⟦ τ ⟧PS ⟦G⟧
+apps₃ τ (-eq- G H) = -eq*- (apps₃ τ G) (apps₃ τ H)
+
 apps₂ : ∀  {Γ Δ G ⟦t⟧} {ρ σ : Sub Γ Δ} (τ : PathSub ρ σ) (t : Δ ⊢₂ G ∋ ⟦t⟧) →
   Γ ⊢₁ EQ₂ (section-pullback₂ ⟦ ρ ⟧S ⟦t⟧) (pullback₂-congl ⟦ τ ⟧PS G) (section-pullback₂ ⟦ σ ⟧S ⟦t⟧) ∋
   section-pullback₂-congl ⟦ τ ⟧PS ⟦t⟧
 apps₂ τ (-var- x) = appsV₂ τ x
+apps₂ τ (-eq*- G* H*) = -eq**- (apps₂ τ G*) (apps₂ τ H*)
 
 apps₁ : ∀  {Γ Δ G ⟦t⟧} {ρ σ : Sub Γ Δ} (τ : PathSub ρ σ) (t : Δ ⊢₁ G ∋ ⟦t⟧) →
   Γ ⊢₀ EQ₁ (section-pullback₁ ⟦ ρ ⟧S ⟦t⟧) (pullback₁-congl ⟦ τ ⟧PS G) (section-pullback₁ ⟦ σ ⟧S ⟦t⟧) ∋
   section-pullback₁-congl ⟦ τ ⟧PS ⟦t⟧
 apps₁ τ (-var- x) = appsV₁ τ x
+apps₁ τ (-eq**- e f) = {!!}

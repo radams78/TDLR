@@ -6,7 +6,7 @@ record Fibration₀ (G : Groupoid) : Set where
   field
     Fibre : Groupoid.Vertex G → U₀
     Fibre-cong : ∀ {x y} → Groupoid.Path G x y → T₀ (Eq₀ (Fibre x) (Fibre y))
-    
+
 pullback₀ : ∀ {G} {H} → Groupoid-Functor G H → Fibration₀ H → Fibration₀ G
 pullback₀ F P = record {
   Fibre = λ x → Fibration₀.Fibre P (ap-vertex F x) ;

@@ -1,0 +1,68 @@
+module Semantics.FibrationEqTwo where
+
+open import Semantics.Univ
+open import Semantics.Groupoid
+open import Semantics.FibrationZero
+open import Semantics.FibrationOne
+open import Semantics.FibrationTwo
+open import Semantics.SectionTwo
+open import Semantics.SectionTwoEq
+
+Fibration-Eq₂-cong₂ : ∀ {G} {NWU NWD NEU NED SWU SWD SEU SED : Fibration₂ G}
+  {NW : Section₂ (Fibration-Eq₂ NWU NWD)} {NE : Section₂ (Fibration-Eq₂ NEU NED)}
+  {SW : Section₂ (Fibration-Eq₂ SWU SWD)} {SE : Section₂ (Fibration-Eq₂ SEU SED)}
+  {WU : Section₂ (Fibration-Eq₂ NWU SWU)} {EU : Section₂ (Fibration-Eq₂ NEU SEU)}
+  {WD : Section₂ (Fibration-Eq₂ NWD SWD)} {ED : Section₂ (Fibration-Eq₂ NED SED)} →
+  Section₁ (EQ₂ NW (Fibration-Eq₂-cong WU WD) SW) → Section₁ (EQ₂ NE (Fibration-Eq₂-cong EU ED) SE) →
+  Section₁ (EQ₂ (Fibration-Eq₂-cong NW NE) (Fibration-Eq₂-cong (Fibration-Eq₂-cong WU EU) (Fibration-Eq₂-cong WD ED)) (Fibration-Eq₂-cong SW SE))
+Fibration-Eq₂-cong₂ W E = record {
+  vertex = λ x → Eq₂-cong₂ (Section₁.vertex W x) (Section₁.vertex E x) ;
+  edge = λ p → Eq₂-cong₃ (Section₁.edge W p) (Section₁.edge E p) }
+
+{- Fibration-Eq₂-cong₃ : ∀ {G} {NWU NWU' NWD NWD' NEU NEU' NED NED' SWU SWU' SWD SWD' SEU SEU' SED SED' : Fibration₂ G}
+  {NW : Section₂ (Fibration-Eq₂ NWU NWD)} {NE : Section₂ (Fibration-Eq₂ NEU NED)}
+  {NW' : Section₂ (Fibration-Eq₂ NWU' NWD')} {NE' : Section₂ (Fibration-Eq₂ NEU' NED')}
+  {SW : Section₂ (Fibration-Eq₂ SWU SWD)} {SE : Section₂ (Fibration-Eq₂ SEU SED)}
+  {SW' : Section₂ (Fibration-Eq₂ SWU' SWD')} {SE' : Section₂ (Fibration-Eq₂ SEU' SED')}
+  {WU : Section₂ (Fibration-Eq₂ NWU SWU)} {EU : Section₂ (Fibration-Eq₂ NEU SEU)}
+  {WU' : Section₂ (Fibration-Eq₂ NWU' SWU')} {EU' : Section₂ (Fibration-Eq₂ NEU' SEU')}
+  {WD : Section₂ (Fibration-Eq₂ NWD SWD)} {ED : Section₂ (Fibration-Eq₂ NED SED)} →
+  {WD' : Section₂ (Fibration-Eq₂ NWD' SWD')} {ED' : Section₂ (Fibration-Eq₂ NED' SED')}
+  {NWU* : Section₂ (Fibration-Eq₂ NWU NWU')} {NWD* : Section₂ (Fibration-Eq₂ NWD NWD')}
+  {SWU* : Section₂ (Fibration-Eq₂ SWU SWU')} →
+  {W : Section₁ (EQ₂ NW (Fibration-Eq₂-cong WU WD) SW)}
+  {W' : Section₁ (EQ₂ NW' (Fibration-Eq₂-cong WU' WD') SW')}
+  {E : Section₁ (EQ₂ NE (Fibration-Eq₂-cong EU ED) SE)}
+  {E' : Section₁ (EQ₂ NE' (Fibration-Eq₂-cong EU' ED') SE')}
+  {NW* : Section₁ (EQ₂ NW (Fibration-Eq₂-cong NWU* NWD*) NW')}
+  {WU* : Section₁ (EQ₂ WU (Fibration-Eq₂-cong NWU* SWU*) WU')} →
+  Section₀ (EQ₁ W (EQ₂-cong NW* (Fibration-Eq₂-cong₂ {!!} {!!}) {!!}) W') → Section₀ (EQ₁ E {!!} E') →
+  Section₀ (EQ₁ (Fibration-Eq₂-cong₂ W E) {!!} (Fibration-Eq₂-cong₂ W' E'))
+Fibration-Eq₂-cong₃ W* E* = {!!}
+
+pullback₂ : ∀ {G} {H} → Groupoid-Functor G H → Fibration₂ H → Fibration₂ G
+pullback₂ F K = record {
+  Fibre = λ x → Fibration₂.Fibre K (ap-vertex F x) ;
+  Fibre-cong = λ p → Fibration₂.Fibre-cong K (ap-path F p) ;
+  Fibre-cong₂ = λ fill → Fibration₂.Fibre-cong₂ K (ap-fill F fill);
+  Fibre-cong₃ = λ fill₂ → Fibration₂.Fibre-cong₃ K (Groupoid-Functor.ap-fill₂ F fill₂)}
+  
+pullback₂-congl : ∀ {G} {H} {F F' : Groupoid-Functor G H} →
+  Groupoid-NatIso F F' → (K : Fibration₂ H) → Section₂ (Fibration-Eq₂ (pullback₂ F K) (pullback₂ F' K))
+pullback₂-congl α K = record {
+  vertex = λ x → Fibration₂.Fibre-cong K (Groupoid-NatIso.comp α x) ;
+  path = λ p → Fibration₂.Fibre-cong₂ K (Groupoid-NatIso.natural α p) ;
+  face = λ fill → Fibration₂.Fibre-cong₃ K (Groupoid-NatIso.natural₂ α fill) }
+
+section-pullback₂ : ∀ {G H K} (F : Groupoid-Functor G H) → Section₂ K → Section₂ (pullback₂ F K)
+section-pullback₂ F s = record {
+  vertex = λ x → Section₂.vertex s (ap-vertex F x) ;
+  path = λ p → Section₂.path s (ap-path F p) ;
+  face = λ fill → Section₂.face s (ap-fill F fill) }
+
+section-pullback₂-congl : ∀ {G H K} {F F' : Groupoid-Functor G H} →
+  (α : Groupoid-NatIso F F') (s : Section₂ K) →
+  Section₁ (EQ₂ (section-pullback₂ F s) (pullback₂-congl α K) (section-pullback₂ F' s))
+section-pullback₂-congl α s = record {
+  vertex = λ x → Section₂.path s (Groupoid-NatIso.comp α x) ;
+  edge = λ p → Section₂.face s (Groupoid-NatIso.natural α p) } -}

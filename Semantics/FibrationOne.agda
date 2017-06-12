@@ -12,10 +12,23 @@ record Fibration₁ (G : Groupoid) : Set where
       Groupoid.Fill G north south west east →
       T₀ (eq₁ (Fibre-cong north) (Eq₁-cong (Fibre-cong west) (Fibre-cong east)) (Fibre-cong south))
     
-record Fibration-Eq₁ {G} (S T : Fibration₁ G) : Set where
+record Section₁ {G} (S : Fibration₁ G) : Set where
   field
-    Fibre : ∀ x → T₁ (Eq₁ (Fibration₁.Fibre S x) (Fibration₁.Fibre T x))
-    Fibre-cong : ∀ {x y} (p : Groupoid.Path G x y) → T₀ (eq₁ (Fibre x) (Eq₁-cong (Fibration₁.Fibre-cong S p) (Fibration₁.Fibre-cong T p)) (Fibre y))
+    vertex : ∀ x → T₁ (Fibration₁.Fibre S x)
+    edge   : ∀ {x y} (p : Groupoid.Path G x y) → T₀ (eq₁ (vertex x) (Fibration₁.Fibre-cong S p) (vertex y))
+
+Fibration-Eq₁ : ∀ {G} → Fibration₁ G → Fibration₁ G → Fibration₁ G
+Fibration-Eq₁ S T = record {
+  Fibre = λ x → Eq₁ (Fibration₁.Fibre S x) (Fibration₁.Fibre T x) ;
+  Fibre-cong = λ p → Eq₁-cong (Fibration₁.Fibre-cong S p) (Fibration₁.Fibre-cong T p) ;
+  Fibre-cong₂ = λ fill → Eq₁-cong₂ (Fibration₁.Fibre-cong₂ S fill) (Fibration₁.Fibre-cong₂ T fill) }
+
+Fibration-Eq₁-cong : ∀ {G} {S S' T T' : Fibration₁ G} →
+  Section₁ (Fibration-Eq₁ S S') → Section₁ (Fibration-Eq₁ T T') →
+  Section₁ (Fibration-Eq₁ (Fibration-Eq₁ S T) (Fibration-Eq₁ S' T'))
+Fibration-Eq₁-cong S* T* = record {
+  vertex = λ x → Eq₁-cong (Section₁.vertex S* x) (Section₁.vertex T* x) ;
+  edge = λ p → Eq₁-cong₂ (Section₁.edge S* p) (Section₁.edge T* p) }
 
 pullback₁ : ∀ {G} {H} → Groupoid-Functor G H → Fibration₁ H → Fibration₁ G
 pullback₁ F S = record {
@@ -24,25 +37,20 @@ pullback₁ F S = record {
   Fibre-cong₂ = λ fill → Fibration₁.Fibre-cong₂ S (ap-fill F fill)}
 
 pullback₁-congl : ∀ {G} {H} {F F' : Groupoid-Functor G H} →
-  Groupoid-NatIso F F' → (S : Fibration₁ H) → Fibration-Eq₁ (pullback₁ F S) (pullback₁ F' S)
+  Groupoid-NatIso F F' → (S : Fibration₁ H) → Section₁ (Fibration-Eq₁ (pullback₁ F S) (pullback₁ F' S))
 pullback₁-congl α S = record {
-  Fibre = λ x → Fibration₁.Fibre-cong S (Groupoid-NatIso.comp α x) ;
-  Fibre-cong = λ p → Fibration₁.Fibre-cong₂ S (Groupoid-NatIso.natural α p) }
+  vertex = λ x → Fibration₁.Fibre-cong S (Groupoid-NatIso.comp α x) ;
+  edge = λ p → Fibration₁.Fibre-cong₂ S (Groupoid-NatIso.natural α p) }
 
-record Section₁ {G} (S : Fibration₁ G) : Set where
-  field
-    vertex : ∀ x → T₁ (Fibration₁.Fibre S x)
-    edge   : ∀ {x y} (p : Groupoid.Path G x y) → T₀ (eq₁ (vertex x) (Fibration₁.Fibre-cong S p) (vertex y))
-    
 section-pullback₁ : ∀ {G H S} (F : Groupoid-Functor G H) → Section₁ S → Section₁ (pullback₁ F S)
 section-pullback₁ F s = record {
   vertex = λ x → Section₁.vertex s (ap-vertex F x) ;
   edge = λ p → Section₁.edge s (ap-path F p) }
 
-EQ₁ : ∀ {G S T} → Section₁ {G} S → Fibration-Eq₁ S T → Section₁ T → Fibration₀ G
+EQ₁ : ∀ {G S T} → Section₁ {G} S → Section₁ (Fibration-Eq₁ S T) → Section₁ T → Fibration₀ G
 EQ₁ s e t = record {
-  Fibre = λ x → eq₁ (Section₁.vertex s x) (Fibration-Eq₁.Fibre e x) (Section₁.vertex t x) ;
-  Fibre-cong = λ p → eq₁-cong (Section₁.edge s p) (Fibration-Eq₁.Fibre-cong e p) (Section₁.edge t p) }
+  Fibre = λ x → eq₁ (Section₁.vertex s x) (Section₁.vertex e x) (Section₁.vertex t x) ;
+  Fibre-cong = λ p → eq₁-cong (Section₁.edge s p) (Section₁.edge e p) (Section₁.edge t p) }
 
 section-pullback₁-congl : ∀ {G H S} {F F' : Groupoid-Functor G H}
   (α : Groupoid-NatIso F F') (s : Section₁ S) →

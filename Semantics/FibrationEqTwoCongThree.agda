@@ -1,0 +1,57 @@
+module Semantics.FibrationEqTwoCongThree where
+
+open import Semantics.Univ
+open import Semantics.Groupoid
+open import Semantics.FibrationZero
+open import Semantics.FibrationOne
+open import Semantics.FibrationTwo
+open import Semantics.SectionTwo
+open import Semantics.SectionTwoEq
+open import Semantics.FibrationEqTwoCongTwo
+open import Semantics.FibrationEqTwoCongTwoEq
+
+abstract
+  Fibration-Eq₂-cong₃ : ∀ {G} {NWU NWU' NWD NWD' NEU NEU' NED NED' SWU SWU' SWD SWD' SEU SEU' SED SED' : Fibration₂ G}
+    (NW : Section₂ (Fibration-Eq₂ NWU NWD))
+    (NE : Section₂ (Fibration-Eq₂ NEU NED))
+    (NW' : Section₂ (Fibration-Eq₂ NWU' NWD'))
+    (NE' : Section₂ (Fibration-Eq₂ NEU' NED'))
+    (SW : Section₂ (Fibration-Eq₂ SWU SWD))
+    (SE : Section₂ (Fibration-Eq₂ SEU SED))
+    (SW' : Section₂ (Fibration-Eq₂ SWU' SWD'))
+    (SE' : Section₂ (Fibration-Eq₂ SEU' SED'))
+    (WU : Section₂ (Fibration-Eq₂ NWU SWU))
+    (EU : Section₂ (Fibration-Eq₂ NEU SEU))
+    (WU' : Section₂ (Fibration-Eq₂ NWU' SWU'))
+    (EU' : Section₂ (Fibration-Eq₂ NEU' SEU'))
+    (WD : Section₂ (Fibration-Eq₂ NWD SWD))
+    (ED : Section₂ (Fibration-Eq₂ NED SED))
+    (WD' : Section₂ (Fibration-Eq₂ NWD' SWD'))
+    (ED' : Section₂ (Fibration-Eq₂ NED' SED'))
+    (NWU* : Section₂ (Fibration-Eq₂ NWU NWU'))
+    (NWD* : Section₂ (Fibration-Eq₂ NWD NWD'))
+    (NEU* : Section₂ (Fibration-Eq₂ NEU NEU'))
+    (NED* : Section₂ (Fibration-Eq₂ NED NED'))
+    (SWU* : Section₂ (Fibration-Eq₂ SWU SWU'))
+    (SWD* : Section₂ (Fibration-Eq₂ SWD SWD'))
+    (SEU* : Section₂ (Fibration-Eq₂ SEU SEU'))
+    (SED* : Section₂ (Fibration-Eq₂ SED SED'))
+    {W : Section₁ (EQ₂ NW (Fibration-Eq₂-cong WU WD) SW)}
+    {W' : Section₁ (EQ₂ NW' (Fibration-Eq₂-cong WU' WD') SW')}
+    {E : Section₁ (EQ₂ NE (Fibration-Eq₂-cong EU ED) SE)}
+    {E' : Section₁ (EQ₂ NE' (Fibration-Eq₂-cong EU' ED') SE')}
+    {NW* : Section₁ (EQ₂ NW (Fibration-Eq₂-cong NWU* NWD*) NW')}
+    {NE* : Section₁ (EQ₂ NE (Fibration-Eq₂-cong NEU* NED*) NE')}
+    {SW* : Section₁ (EQ₂ SW (Fibration-Eq₂-cong SWU* SWD*) SW')}
+    {SE* : Section₁ (EQ₂ SE (Fibration-Eq₂-cong SEU* SED*) SE')}
+    {WU* : Section₁ (EQ₂ WU (Fibration-Eq₂-cong NWU* SWU*) WU')}
+    {WD* : Section₁ (EQ₂ WD (Fibration-Eq₂-cong NWD* SWD*) WD')}
+    {EU* : Section₁ (EQ₂ EU (Fibration-Eq₂-cong NEU* SEU*) EU')}
+    {ED* : Section₁ (EQ₂ ED (Fibration-Eq₂-cong NED* SED*) ED')} →
+    Section₀ (EQ₁ W (EQ₂-cong NW NW' SW SW' NW* (Fibration-Eq₂-cong₂ WU WU' WD WD' WU* WD*) SW*) W') →
+    Section₀ (EQ₁ E (EQ₂-cong NE NE' SE SE' NE* (Fibration-Eq₂-cong₂ EU EU' ED ED' EU* ED*) SE*) E') →
+    Section₀ (Fibration-Eq₂-cong₂-eq-Eq₂-cong₂ NWU NWU' NWD NWD' NEU NEU' NED NED' SWU SWU' SWD SWD' SEU SEU' SED SED'
+    W W' E E' NW* NE* SW* SE* WU* WD* EU* ED*)
+  Fibration-Eq₂-cong₃ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ W* E* = record {
+    vertex = λ x → Eq₂-cong₃ (Section₀.vertex W* x) (Section₀.vertex E* x)
+    }

@@ -45,3 +45,23 @@ postulate eq₂-cong₂ : ∀ {A A' B B' C C' D D'}
                       T₀ (eq₁ a* (eq₂-cong ac A*C* a'c') c*) → T₀ (eq₁ e* (eq₂-cong ef (Eq₂-cong₂ A*C* B*D*) e'f') f*) →
                       T₀ (eq₁ b* (eq₂-cong bd B*D* b'd') d*) →
                       T₀ (eq₁ (eq₂-cong a* e* b*) (Eq₁-cong (eq₂-cong ac ef bd) (eq₂-cong a'c' e'f' b'd')) (eq₂-cong c* f* d*))
+postulate Eq₁-cong₂ : ∀ {NWU NWD NEU NED SWU SWD SEU SED}
+                    {NW : T₁ (Eq₁ NWU NWD)} {NE : T₁ (Eq₁ NEU NED)} {SW : T₁ (Eq₁ SWU SWD)} {SE : T₁ (Eq₁ SEU SED)}
+                    {WU : T₁ (Eq₁ NWU SWU)} {WD : T₁ (Eq₁ NWD SWD)} {EU : T₁ (Eq₁ NEU SEU)} {ED : T₁ (Eq₁ NED SED)} → 
+                    T₀ (eq₁ NW (Eq₁-cong WU WD) SW) → T₀ (eq₁ NE (Eq₁-cong EU ED) SE) →
+                    T₀ (eq₁ (Eq₁-cong NW NE) (Eq₁-cong (Eq₁-cong WU EU) (Eq₁-cong WD ED)) (Eq₁-cong SW SE))
+postulate Eq₂-cong₃ : ∀ {NWU NWU' NWD NWD' NEU NEU' NED NED' SWU SWU' SWD SWD' SEU SEU' SED SED'}
+                    {NWU* : T₂ (Eq₂ NWU NWU')} {NWD* : T₂ (Eq₂ NWD NWD')} {NEU* : T₂ (Eq₂ NEU NEU')} {NED* : T₂ (Eq₂ NED NED')}
+                    {SWU* : T₂ (Eq₂ SWU SWU')} {SWD* : T₂ (Eq₂ SWD SWD')} {SEU* : T₂ (Eq₂ SEU SEU')} {SED* : T₂ (Eq₂ SED SED')}
+                    {NW : T₂ (Eq₂ NWU NWD)} {NW' : T₂ (Eq₂ NWU' NWD')} {NE : T₂ (Eq₂ NEU NED)} {NE' : T₂ (Eq₂ NEU' NED')}
+                    {SW : T₂ (Eq₂ SWU SWD)} {SW' : T₂ (Eq₂ SWU' SWD')} {SE : T₂ (Eq₂ SEU SED)} {SE' : T₂ (Eq₂ SEU' SED')}
+                    {WU : T₂ (Eq₂ NWU SWU)} {WU' : T₂ (Eq₂ NWU' SWU')} {EU : T₂ (Eq₂ NEU SEU)} {EU' : T₂ (Eq₂ NEU' SEU')}
+                    {WD : T₂ (Eq₂ NWD SWD)} {WD' : T₂ (Eq₂ NWD' SWD')} {ED : T₂ (Eq₂ NED SED)} {ED' : T₂ (Eq₂ NED' SED')}
+                    {NW* : T₁ (eq₂ NW (Eq₂-cong NWU* NWD*) NW')} {NE* : T₁ (eq₂ NE (Eq₂-cong NEU* NED*) NE')}
+                    {SW* : T₁ (eq₂ SW (Eq₂-cong SWU* SWD*) SW')} {SE* : T₁ (eq₂ SE (Eq₂-cong SEU* SED*) SE')}
+                    {WU* : T₁ (eq₂ NWU* (Eq₂-cong WU WU') SWU*)} {WD* : T₁ (eq₂ NWD* (Eq₂-cong WD WD') SWD*)}
+                    {EU* : T₁ (eq₂ NEU* (Eq₂-cong EU EU') SEU*)} {ED* : T₁ (eq₂ NED* (Eq₂-cong ED ED') SED*)}
+                    {W : T₁ (eq₂ NW (Eq₂-cong WU WD) SW)} {E : T₁ (eq₂ NE (Eq₂-cong EU ED) SE)}
+                    {W' : T₁ (eq₂ NW' (Eq₂-cong WU' WD') SW')} {E' : T₁ (eq₂ NE' (Eq₂-cong EU' ED') SE')} →
+                    T₀ (eq₁ NW* (eq₂-cong W (Eq₂-cong₂ WU* WD*) W') SW*) →  T₀ (eq₁ NE* (eq₂-cong E (Eq₂-cong₂ EU* ED*) E') SE*) →
+                    T₀ (eq₁ (Eq₂-cong₂ NW* NE*) (eq₂-cong (Eq₂-cong₂ W E) (Eq₂-cong₂ (Eq₂-cong₂ WU* EU*) (Eq₂-cong₂ WD* ED*)) (Eq₂-cong₂ W' E')) (Eq₂-cong₂ SW* SE*))

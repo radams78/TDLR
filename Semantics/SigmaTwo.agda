@@ -1,10 +1,13 @@
 module Semantics.SigmaTwo where
 open import Data.Product
 
-open import Semantics.Groupoid
 open import Semantics.Univ
-open import Semantics.FibrationTwo
+open import Semantics.Groupoid
 open import Semantics.FibrationOne
+open import Semantics.FibrationTwo
+open import Semantics.SectionTwo
+open import Semantics.SectionTwoEq
+open import Semantics.FibrationEqTwoCongThree
 
 Sigma₂ : ∀ G → Fibration₂ G → Groupoid
 Sigma₂ G H = record {
@@ -17,9 +20,9 @@ Sigma₂ G H = record {
 
 pair₂ : ∀ {G H} K (F : Groupoid-Functor G H) → Section₂ (pullback₂ F K) → Groupoid-Functor G (Sigma₂ H K)
 pair₂ K F s = record {
-  ap-vertex = λ x → ap-vertex F x , vertex s x ;
-  ap-path = λ p → ap-path F p , path s p ;
-  ap-fill = λ fill → ap-fill F fill , face s fill;
+  ap-vertex = λ x → ap-vertex F x , Section₂.vertex s x ;
+  ap-path = λ p → ap-path F p , Section₂.path s p ;
+  ap-fill = λ fill → ap-fill F fill , Section₂.face s fill;
   ap-fill₂ = Groupoid-Functor.ap-fill₂ F}
 
 p₂ : ∀ {G} H → Groupoid-Functor (Sigma₂ G H) G

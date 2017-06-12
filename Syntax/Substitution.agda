@@ -36,11 +36,16 @@ apV₀ (σ ,₂ _ ∋ _ ≡ t) (pop₂ x) = apV₀ σ x
 apV₀ (σ ,₁ _ ∋ _ ≡ t) (pop₁ x) = apV₀ σ x
 apV₀ (σ ,₀ _ ∋ _ ≡ t) (pop₀ x) = apV₀ σ x
 
+ap₃ : ∀ {Γ Δ G} (σ : Sub Γ Δ) → Δ ⊢ G gpd → Γ ⊢ pullback₂ ⟦ σ ⟧S G gpd
+ap₃ σ (-eq- G H) = -eq- (ap₃ σ G) (ap₃ σ H)
+
 ap₂ : ∀ {Γ Δ G} (σ : Sub Γ Δ) {⟦t⟧} → Δ ⊢₂ G ∋ ⟦t⟧ → Γ ⊢₂ pullback₂ ⟦ σ ⟧S G ∋ section-pullback₂ ⟦ σ ⟧S ⟦t⟧
 ap₂ σ (-var- x) = apV₂ σ x
+ap₂ σ (-eq*- G* H*) = -eq*- (ap₂ σ G*) (ap₂ σ H*)
 
 ap₁ : ∀ {Γ Δ G} (σ : Sub Γ Δ) {⟦t⟧} → Δ ⊢₁ G ∋ ⟦t⟧ → Γ ⊢₁ pullback₁ ⟦ σ ⟧S G ∋ section-pullback₁ ⟦ σ ⟧S ⟦t⟧
 ap₁ σ (-var- x) = apV₁ σ x
+ap₁ σ (-eq**- {⟦GK⟧ = ⟦GK⟧} {⟦G'K'⟧} {⟦HL⟧} {⟦H'L'⟧} S* T*) =
+  -eq**- {⟦GK⟧ = section-pullback₂ ⟦ σ ⟧S ⟦GK⟧} {section-pullback₂ ⟦ σ ⟧S ⟦G'K'⟧} {section-pullback₂ ⟦ σ ⟧S ⟦HL⟧} {section-pullback₂ ⟦ σ ⟧S ⟦H'L'⟧}
+  (ap₁ σ S*) (ap₁ σ T*)
 
-ap₀ : ∀ {Γ Δ G} (σ : Sub Γ Δ) {⟦t⟧} → Δ ⊢₀ G ∋ ⟦t⟧ → Γ ⊢₀ pullback₀ ⟦ σ ⟧S G ∋ section-pullback₀ ⟦ σ ⟧S ⟦t⟧
-ap₀ σ (-var- x) = apV₀ σ x
