@@ -37,3 +37,9 @@ pullback₂ F K = record {
   Fibre-cong₂ = λ fill → Fibration₂.Fibre-cong₂ K (ap-fill F fill);
   Fibre-cong₃ = λ fill₂ → Fibration₂.Fibre-cong₃ K (Groupoid-Functor.ap-fill₂ F fill₂)}
 
+
+Sets : ∀ {G} → Fibration₂ G
+Sets {G} = record
+  { Fibre = λ x → u₁ ;
+  Fibre-cong = λ p → Ref₂ u₁ ;
+  Fibre-cong₂ = {!!} ; Fibre-cong₃ = {!!} }
